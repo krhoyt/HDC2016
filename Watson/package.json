@@ -1,0 +1,18 @@
+{
+  "name": "Watson",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "cfenv": "1.0.x",
+    "express": "^4.14.0",
+    "jsonfile": "^2.3.1",
+    "request": "^2.73.0"
+  },
+  "repository": {},
+  "engines": {
+    "node": "4.x"
+  }
+}
