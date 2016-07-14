@@ -3931,7 +3931,7 @@ function readableAddChunk(stream, state, chunk, encoding, addToFront) {
     } else {
       var skipAdd;
       if (state.decoder && !addToFront && !encoding) {
-        chunk = state.decoder.write(chunk);
+        //chunk = state.decoder.write(chunk);
         skipAdd = !state.objectMode && chunk.length === 0;
       }
 
