@@ -1,12 +1,19 @@
 var cfenv = require( 'cfenv' );
 var express = require( 'express' );
 var jsonfile = require( 'jsonfile' );
+var parser = require( 'body-parser' );
 
 // Read individual settings
 var config = jsonfile.readFileSync( __dirname + '/config.json' );
 
-// New Express application
+// Application
 var app = express();
+
+// Middleware
+app.use( parser.json() );
+app.use( parser.urlencoded( { 
+	extended: false 
+} ) );
 
 // Per-request actions
 app.use( function( req, res, next ) {
@@ -26,6 +33,8 @@ app.use( '/', express.static( 'public' ) );
 
 // Routes
 app.use( '/stt', require( './routes/stt' ) );
+app.use( '/conversation', require( './routes/conversation' ) );
+app.use( '/tts', require( './routes/tts' ) );
 
 // Cloud Foundry support
 // Bluemix

@@ -1,4 +1,5 @@
 var capture;
+var intent;
 var prompt;
 var source;
 var transcript;
@@ -28,7 +29,7 @@ function speech() {
     
 	// Get token
 	xhr = new XMLHttpRequest();
-	xhr.addEventListener( 'load', doTokenLoad );
+	xhr.addEventListener( 'load', doTokenSpeech );
 	xhr.open( 'GET', '/stt/token', true );
 	xhr.send( null );    			    
 }
@@ -79,7 +80,7 @@ function doCaptureDrop( evt ) {
 }
 
 // Token retrieved
-function doTokenLoad() {
+function doTokenSpeech() {
 	// Debug
     // console.log( xhr.responseText );
 	console.log( 'Token retrieved.' );
@@ -127,7 +128,7 @@ function doTokenLoad() {
 	watson.on( 'end', doWatsonEnd );            
 
 	// Clean up
-    xhr.removeEventListener( 'load', doTokenLoad );
+    xhr.removeEventListener( 'load', doTokenSpeech );
     xhr = null;
 }    
 
@@ -152,23 +153,30 @@ function doWatsonData( data ) {
 // Stream ended
 // Good place for follow-up actions
 function doWatsonEnd() {
-    var result = null;
-    
 	// Debug
 	console.log( 'Stream ended.' );   
     
-    // TODO: Take next action
+    // Isolate result by source
+    // Just want raw text at this point
     if( source == null ) {
-        result = transcript.alternatives[transcript.index].transcript;
-    } else {
-        result = transcript;
+        transcript = transcript.alternatives[transcript.index].transcript;
     }
     
+    // ADD: For conversation intent
+    // Determine intent
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener( 'load', doIntentLoad );
+    xhr.open( 'POST', '/conversation/intent', true );
+    xhr.setRequestHeader( 'Content-Type', 'application/json' );    
+    xhr.send( JSON.stringify( {
+        text: transcript
+    } ) );    
+    
     // Debug
-    console.log( result );
+    console.log( transcript );
     
     // Show content
-    display( result );
+    display( transcript );
     
     // Reset to microphone if needed
     if( source != null ) {

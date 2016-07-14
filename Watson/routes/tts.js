@@ -13,15 +13,15 @@ router.get( '/token', function( req, res ) {
     // Authentication
     // HTTP Basic
 	hash = new Buffer( 
-		req.config.stt.username + 
+		req.config.tts.username + 
 		':' + 
-		req.config.stt.password
+		req.config.tts.password
 	).toString( 'base64' );
 	
     // Request token
 	request( {
 		method: 'GET',
-		url: WATSON_STREAM + '?url=' + req.config.stt.url,	
+		url: WATSON_STREAM + '?url=' + req.config.tts.url,	
 		headers: {
 			'Authorization': 'Basic ' + hash
 		}
@@ -32,7 +32,7 @@ router.get( '/token', function( req, res ) {
 
 // Test
 router.get( '/test', function( req, res ) {
-	res.json( {watson: 'Speech-To-Text'} );
+	res.json( {watson: 'Text-to-Speech'} );
 } );
 	
 // Export
