@@ -10,6 +10,8 @@
     "cfenv": "1.0.x",
     "express": "^4.14.0",
     "jsonfile": "^2.3.1",
+    "multer": "^1.1.0",
+    "randomstring": "^1.1.5",
     "request": "^2.73.0"
   },
   "repository": {},

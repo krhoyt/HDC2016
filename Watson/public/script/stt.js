@@ -73,10 +73,17 @@ function doCaptureDrop( evt ) {
     // Store for after we have a token
     source = evt.dataTransfer.files[0];
 
-    // Watson process
-    // Get token
-    // Transcribe
-    speech();
+    // Audio or image files
+    // Audio is processed by speech-to-text
+    // Image is processed by visual recognition
+    if( source.type.indexOf( 'image' ) >= 0 ) {
+        recognize();
+    } else {
+        // Watson process
+        // Get token
+        // Transcribe
+        speech();        
+    }
 }
 
 // Token retrieved
