@@ -43,6 +43,7 @@ router.post( '/intent', function( req, res ) {
             }
         }
 	}, function( err, result, body ) {
+        /*
         var data = null;
         
         // Parse data
@@ -54,6 +55,7 @@ router.post( '/intent', function( req, res ) {
         } else if( data.intents[0].intent == 'turn_off' ) {
             
         }
+        */
         
         // Client gets unparsed body content
 		res.send( body );
