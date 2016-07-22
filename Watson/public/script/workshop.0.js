@@ -76,6 +76,7 @@ var Workshop = ( function() {
     var doCaptureDrag = function( evt ) {
         // Debug
         console.log( 'File(s) dragged.' );
+        // console.log( evt );
         
         // Stop default browser behavior    
         evt.stopPropagation();
@@ -104,6 +105,15 @@ var Workshop = ( function() {
 
         // Reference to shorten access
         source = evt.dataTransfer.files[0];
+        
+        // Dropping of URL from another window or tab
+        // Process the content on that resource
+        // Do not continue
+        if( evt.dataTransfer.getData( 'URL' ).length > 0 ) {
+            // Debug
+            console.log( evt.dataTransfer.getData( 'URL' ) );
+            return;
+        }
         
         // Support for different file types
         // Audio for speech-to-text

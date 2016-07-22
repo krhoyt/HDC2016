@@ -31,6 +31,7 @@ body {
 
 .prompt {
     color: white;
+    cursor: default;
     flex-grow: 1;
     text-align: center;
 }
