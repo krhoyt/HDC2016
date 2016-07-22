@@ -1,7 +1,8 @@
 var express = require( 'express' );
 var request = require( 'request' );
 
-var WATSON_STREAM = 'https://stream.watsonplatform.net/authorization/api/v1/token';
+var WATSON_TOKEN = 'https://stream.watsonplatform.net/authorization/api/v1/token';
+var WATSON_VOICES = 'https://stream.watsonplatform.net/text-to-speech/api/v1/voices';
 
 // Router
 var router = express.Router();
@@ -21,7 +22,31 @@ router.get( '/token', function( req, res ) {
     // Request token
 	request( {
 		method: 'GET',
-		url: WATSON_STREAM + '?url=' + req.config.tts.url,	
+		url: WATSON_TOKEN + '?url=' + req.config.tts.url,	
+		headers: {
+			'Authorization': 'Basic ' + hash
+		}
+	}, function( err, result, body ) {
+		res.send( body );
+	} );
+} );
+
+// Voices
+router.get( '/voices', function( req, res ) {
+	var hash = null;
+	
+    // Authentication
+    // HTTP Basic
+	hash = new Buffer( 
+		req.config.tts.username + 
+		':' + 
+		req.config.tts.password
+	).toString( 'base64' );
+	
+    // get voice list
+	request( {
+		method: 'GET',
+		url: WATSON_VOICES + '?url=' + req.config.tts.url,	
 		headers: {
 			'Authorization': 'Basic ' + hash
 		}

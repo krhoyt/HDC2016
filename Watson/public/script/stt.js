@@ -34,17 +34,6 @@ function speech() {
 	xhr.send( null );    			    
 }
 
-// Start the process of transcription
-function doCaptureClick() {
-	// Debug
-	console.log( 'Button clicked.' );
-
-    // Watson process
-    // Get token
-    // Transcribe
-    speech();
-}
-
 // File dragged onto drop zone
 function doCaptureDrag( evt ) {
     // Stop default browser behavior    

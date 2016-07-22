@@ -36,6 +36,7 @@ app.use( '/stt', require( './routes/stt' ) );
 app.use( '/conversation', require( './routes/conversation' ) );
 app.use( '/tts', require( './routes/tts' ) );
 app.use( '/visual', require( './routes/visual' ) );
+app.use( '/translate', require( './routes/translate' ) );
 
 // Cloud Foundry support
 // Bluemix
