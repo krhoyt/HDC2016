@@ -5,6 +5,58 @@ var Workshop = ( function() {
     var original = null;
     var prompt = null;
     
+    var progress = function() {
+        // Hide input button
+        TweenMax.to( capture, 0.50, {
+            opacity: 0    
+        } );            
+
+        // Hide message before changing
+        TweenMax.to( prompt, 0.50, {
+            opacity: 0,
+            onComplete: function() {
+                // Clear
+                prompt.innerHTML = '';
+
+                // Change style
+                prompt.classList.remove( 'help' );
+                prompt.classList.add( 'transcribe' );
+            }
+        } );
+        
+        // Disable click event until session is over    
+        capture.removeEventListener( 'click', doCaptureClick );
+        capture.removeEventListener( 'dragover', doCaptureDrag );    
+        capture.removeEventListener( 'drop', doCaptureDrop );                           
+    };
+    
+    var reveal = function( message ) {
+        // Display text that will be spoken
+        prompt.innerHTML = message;
+
+        // Display prompt
+        TweenMax.to( prompt, 0.50, {
+            opacity: 1
+        } );                    
+        
+        // Speak results of image content
+        TTS.say( message )
+        
+        // Reset button icon
+        capture.classList.remove( 'file' );
+        capture.classList.add( 'microphone' );        
+        
+        // Display button
+        TweenMax.to( capture, 0.50, {
+            opacity: 1
+        } );            
+        
+        // Allow next session
+        capture.addEventListener( 'click', doCaptureClick );
+        capture.addEventListener( 'dragover', doCaptureDrag );    
+        capture.addEventListener( 'drop', doCaptureDrop );                    
+    };
+    
     // Convenience to temporarily use a different language
     // Effects both speech and copy
     // Waits a period of time
@@ -113,6 +165,9 @@ var Workshop = ( function() {
             // Debug
             console.log( evt.dataTransfer.getData( 'URL' ) );
             
+            // Indicate that processing is happening
+            progress();
+            
             // Request language analytics
             Alchemy.language( evt.dataTransfer.getData( 'URL' ) );
             
@@ -127,28 +182,8 @@ var Workshop = ( function() {
             // Transcribe
             STT.file( source );
         } else if( source.type.indexOf( 'image' ) >= 0 ) {
-            // Queue to user that something is happening
-            TweenMax.to( capture, 0.50, {
-                opacity: 0    
-            } );            
-            
-            // Hide message before changing
-            TweenMax.to( prompt, 0.50, {
-                opacity: 0,
-                onComplete: function() {
-                    // Clear
-                    prompt.innerHTML = '';
-
-                    // Change style
-                    prompt.classList.remove( 'help' );
-                    prompt.classList.add( 'transcribe' );
-                }
-            } );                
-            
-            // Disable click event until session is over    
-            capture.removeEventListener( 'click', doCaptureClick );
-            capture.removeEventListener( 'dragover', doCaptureDrag );    
-            capture.removeEventListener( 'drop', doCaptureDrop );                        
+            // Indicate that processing is happening
+            progress(); 
             
             // Recognize
             Visual.recognize( source );
@@ -178,19 +213,11 @@ var Workshop = ( function() {
     // Aggregates concepts
     // Uses text-to-speech to announce concepts
     var doLanguageComplete = function( evt ) {
-        var speak = null;
-        
         // Debug
-        console.log( evt );
-
-        // Assemble response
-        speak = 'This appears to be about ' + evt.concepts[0] + '.';
+        // console.log( 'Concept processing complete.' );
         
-        // Show results
-        prompt.innerHTML = speak;
-        
-        // Announce results
-        TTS.say( speak );
+        // Speak and show concept result
+        reveal( 'This appears to be about ' + evt.concepts[0] + '.' );
     };
     
     // Called when the prompt area is clicked
@@ -286,30 +313,8 @@ var Workshop = ( function() {
         // Debug
         console.log( 'Visual recognition event.' );
         
-        // Display text that will be spoken
-        prompt.innerHTML = 'This looks like ' + evt.subject + '.';
-
-        // Display prompt
-        TweenMax.to( prompt, 0.50, {
-            opacity: 1
-        } );                    
-        
-        // Speak results of image content
-        TTS.say( 'This looks like ' + evt.subject )
-        
-        // Reset button icon
-        capture.classList.remove( 'file' );
-        capture.classList.add( 'microphone' );        
-        
-        // Display button
-        TweenMax.to( capture, 0.50, {
-            opacity: 1
-        } );            
-        
-        // Allow next session
-        capture.addEventListener( 'click', doCaptureClick );
-        capture.addEventListener( 'dragover', doCaptureDrag );    
-        capture.addEventListener( 'drop', doCaptureDrop );                
+        // Speak and show result content
+        reveal( 'This looks like ' + evt.subject + '.' );
     };
     
 	// Event to start transcribing via microphone
