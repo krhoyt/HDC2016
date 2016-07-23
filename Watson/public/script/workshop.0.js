@@ -217,7 +217,11 @@ var Workshop = ( function() {
         // console.log( 'Concept processing complete.' );
         
         // Speak and show concept result
-        reveal( 'This appears to be about ' + evt.concepts[0] + '.' );
+        reveal( 
+            'This appears to be about ' + 
+            evt.concepts[0].toLowerCase() + 
+            '.' 
+        );
     };
     
     // Called when the prompt area is clicked
@@ -314,7 +318,11 @@ var Workshop = ( function() {
         console.log( 'Visual recognition event.' );
         
         // Speak and show result content
-        reveal( 'This looks like ' + evt.subject + '.' );
+        reveal( 
+            'This looks like ' + 
+            evt.subject + 
+            '.' 
+        );
     };
     
 	// Event to start transcribing via microphone
