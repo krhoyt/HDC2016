@@ -1,4 +1,4 @@
-var Alchemy = ( function() {
+var Tone = ( function() {
 
     // Private
     var subscribers = null;
@@ -36,28 +36,28 @@ var Alchemy = ( function() {
         } );
     };    
     
-    // Apply Alchemy Language on URL
-    var language = function( url ) {
+    // Use Visual Recognition on an image file
+    var analyze = function( content ) {
         // Debug
-        console.log( 'Sending URL ...' );
+        console.log( 'Analyzing tone ...' );
         
         /*
-         * TODO: Send link to server
+         * Send content to Tone Analysis
          */
-        // Submit URL for processing
+        // Send content to Watson
         xhr = new XMLHttpRequest();
-        xhr.addEventListener( 'load', doLanguageLoad );
-        xhr.open( 'POST', '/alchemy/language' );
-        xhr.setRequestHeader( 'Content-Type', 'application/json' );                    
+        xhr.addEventListener( 'load', doAnalyzeLoad );
+        xhr.open( 'POST', '/tone/analyze' );
+        xhr.setRequestHeader( 'Content-Type', 'application/json' );
         xhr.send( JSON.stringify( {
-            url: url
+            content: content    
         } ) );        
     };
     
-    // Response from Alchemy Language
-    var doLanguageLoad = function() {
-        var concepts = null;        
+    // Response from Tone Analysis
+    var doAnalyzeLoad = function() {
         var data = null;
+        var tones = null;
         
         // Parse JSON
         data = JSON.parse( xhr.responseText );
@@ -69,30 +69,30 @@ var Alchemy = ( function() {
         console.log( data );
         
         // Prepare result
-        concepts = [];    
+        tones = [];            
         
         /*
-         * TODO: Aggregate concepts
+         * TODO: Aggregate tones
          */        
         // Aggregate concepts
-        for( var c = 0; c < data.concepts.length; c++ ) {
-            if( data.concepts[c].relevance >= getThreshold() ) {
-                concepts.push( data.concepts[c].text );
+        for( var t = 0; t < data.document_tone.tone_categories[0].tones.length; t++ ) {
+            if( data.document_tone.tone_categories[0].tones[t].score >= getThreshold() ) {
+                tones.push( data.document_tone.tone_categories[0].tones[t].tone_name );
             }
-        }
+        }        
         
         /*
-         * TODO: Emit dominant concepts
+         * TODO: Emit discovered tones
          */
         // Emit event with results
-        emit( Alchemy.COMPLETE, {
-            concepts
+        emit( Tone.COMPLETE, {
+            tones
         } );
         
         // Clean up
-        xhr.removeEventListener( 'load', doLanguageLoad );
+        xhr.removeEventListener( 'load', doAnalyzeLoad );
         xhr = null;
-    };
+    };        
     
     var getThreshold = function() {
         return threshold;
@@ -100,23 +100,23 @@ var Alchemy = ( function() {
     
     var setThreshold = function( value ) {
         threshold = value;    
-    };
+    };    
     
     // Debug
-    console.log( 'Alchemy Language' );
+    console.log( 'Tone Analyzer' );
     
     // Default threshold
-    setThreshold( 0.75 );
+    setThreshold( 0.50 );    
     
     // Pointers
     return {
-        COMPLETE: 'alchemy_complete',
+        COMPLETE: 'tone_complete',
         
         getThreshold: getThreshold,
-        setThreshold: setThreshold,
+        setThreshold: setThreshold,        
         
         on: on,
-        language: language
+        analyze: analyze
     };
 
 } )();

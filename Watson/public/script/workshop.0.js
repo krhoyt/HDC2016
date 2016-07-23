@@ -4,6 +4,7 @@ var Workshop = ( function() {
     var capture = null;
     var original = null;
     var prompt = null;
+    var reader = null;
     
     var progress = function() {
         // Hide input button
@@ -154,9 +155,6 @@ var Workshop = ( function() {
         // Which will try to display the content
         evt.stopPropagation();
         evt.preventDefault();
-
-        // Reference to shorten access
-        source = evt.dataTransfer.files[0];
         
         // Dropping of URL from another window or tab
         // Process the content on that resource
@@ -174,6 +172,10 @@ var Workshop = ( function() {
             // Do not continue
             return;
         }
+
+        // Reference to shorten access
+        // console.log( evt.dataTransfer.files[0].type );        
+        source = evt.dataTransfer.files[0];
         
         // Support for different file types
         // Audio for speech-to-text
@@ -187,6 +189,15 @@ var Workshop = ( function() {
             
             // Recognize
             Visual.recognize( source );
+        } else if( source.type.indexOf( 'text' ) >= 0 ) {
+            // Indicate the processing is happening
+            progress();
+            
+            // Read the local file
+            // Text content
+            reader = new FileReader();
+            reader.addEventListener( 'load', doFileLoad );
+            reader.readAsText( source );            
         }
     };        
     
@@ -207,6 +218,20 @@ var Workshop = ( function() {
         
         // Speak dialog response
         TTS.say( evt.text );
+    };
+    
+    // Called when a local file has been read
+    // Sends text content to Tone Analysis
+    var doFileLoad = function() {
+        // Debug
+        console.log( 'File read complete.' );
+        
+        // Send to Tone Analysis
+        Tone.analyze( reader.result );
+        
+        // Clean up
+        reader.removeEventListener( 'load', doFileLoad );
+        reader = null;
     };
     
     // Called when Alchemy Language processing is complete
@@ -304,6 +329,22 @@ var Workshop = ( function() {
         capture.addEventListener( 'drop', doCaptureDrop );                
     };
     
+    // Called when document tones have been analyzed
+    // Speak and display the dominant tone
+    var doToneComplete = function( evt ) {
+        // Debug
+        // console.log( 'Tone analysis complete.' );
+        
+        console.log( evt );
+        
+        // Speak and show concept result
+        reveal( 
+            'The dominant tone is ' + 
+            evt.tones[0].toLowerCase() + 
+            '.' 
+        );        
+    };
+    
     // Translation is complete
     // Speak the results
     var doTranslateComplete = function( evt ) {
@@ -345,6 +386,7 @@ var Workshop = ( function() {
     Visual.on( Visual.RECOGNIZE, doVisualRecognize );
     Translate.on( Translate.COMPLETE, doTranslateComplete );
     Alchemy.on( Alchemy.COMPLETE, doLanguageComplete );
+    Tone.on( Tone.COMPLETE, doToneComplete );
     
     // Debug
     console.log( 'Workshop' );
