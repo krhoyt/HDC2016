@@ -112,6 +112,11 @@ var Workshop = ( function() {
         if( evt.dataTransfer.getData( 'URL' ).length > 0 ) {
             // Debug
             console.log( evt.dataTransfer.getData( 'URL' ) );
+            
+            // Request language analytics
+            Alchemy.language( evt.dataTransfer.getData( 'URL' ) );
+            
+            // Do not continue
             return;
         }
         
@@ -169,11 +174,30 @@ var Workshop = ( function() {
         TTS.say( evt.text );
     };
     
+    // Called when Alchemy Language processing is complete
+    // Aggregates concepts
+    // Uses text-to-speech to announce concepts
+    var doLanguageComplete = function( evt ) {
+        var speak = null;
+        
+        // Debug
+        console.log( evt );
+
+        // Assemble response
+        speak = 'This appears to be about ' + evt.concepts[0] + '.';
+        
+        // Show results
+        prompt.innerHTML = speak;
+        
+        // Announce results
+        TTS.say( speak );
+    };
+    
     // Called when the prompt area is clicked
     // Translates diplayed content
     var doPromptClick = function() {
         Translate.to( prompt.innerHTML, Workshop.TRANSLATE_TARGET );
-    }
+    };
     
     // Progress happening with Watson
     // Stream notifications
@@ -307,6 +331,7 @@ var Workshop = ( function() {
     Conversation.on( Conversation.INTENT, doConversationIntent );
     Visual.on( Visual.RECOGNIZE, doVisualRecognize );
     Translate.on( Translate.COMPLETE, doTranslateComplete );
+    Alchemy.on( Alchemy.COMPLETE, doLanguageComplete );
     
     // Debug
     console.log( 'Workshop' );
