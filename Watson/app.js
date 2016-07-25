@@ -1,10 +1,28 @@
 var cfenv = require( 'cfenv' );
 var express = require( 'express' );
 var jsonfile = require( 'jsonfile' );
+var mqtt = require( 'mqtt' );
 var parser = require( 'body-parser' );
+
+// Constants
+var IOT_CLIENT = 'a:ts200f:node';
+var IOT_SERVER = 'mqtt://ts200f.messaging.internetofthings.ibmcloud.com';
 
 // Read individual settings
 var config = jsonfile.readFileSync( __dirname + '/config.json' );
+
+// Connect to Watson IoT
+var client = mqtt.connect( IOT_SERVER, {
+    clientId: IOT_CLIENT,
+    username: config.iot.key,
+    password: config.iot.token
+} );
+
+// Connected to Watson IoT
+client.on( 'connect', function() {
+    // Debug
+    console.log( 'Connected to Watson.' );
+} );
 
 // Application
 var app = express();
@@ -23,6 +41,7 @@ app.use( function( req, res, next ) {
 	
 	// Configuration
 	req.config = config;
+    req.iot = client;
 	
 	// Just keep swimming
 	next();
