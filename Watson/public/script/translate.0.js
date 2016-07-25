@@ -68,7 +68,7 @@ var Translate = ( function() {
         data = JSON.parse( xhr.responseText );
         
         /*
-         * TODO: Explore retrun data
+         * TODO: Explore return data
          */
         // Debug
         console.log( data );

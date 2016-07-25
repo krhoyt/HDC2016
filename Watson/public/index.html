@@ -2,23 +2,291 @@
 <html>
 <head>
 
-<title>Watson</title>
+<title>Watson Workshop</title>
 
 </head>
 <body>
 
-<h1>Watson!</h1>
+<h1>Watson Workshop</h1>
 
-<ul>
-    <li><a href="stt.html">Speech-To-Text (STT)</a></li>
+<ol>
+    <li>Overview</li>
+    <ol>
+        <li>What you will learn</li>
+        <ol>
+            <li>Speech-To-Text</li>
+            <li>Text-To-Speech</li>
+            <li>Conversation</li>
+            <li>Visual Recognition</li>
+            <li>Translation</li>
+            <li>Concept Extraction</li>
+            <li>Tone Analysis</li>
+            <li><i>Internet of Things</i></li>
+        </ol>
+        <li>Demo application</li>        
+    </ol>
+    <li>Speech-To-Text (STT)</li>
+    <ol>
+        <li>Authentication (Client)</li>
+        <li>Authentication (Server)</li>        
+        <li>Audio Capture</li>
+        <li>Capture Events</li>
+        <li>Interim Results</li>
+        <li>Final Results</li>
+    </ol>
+    <li>Text-To-Speech (TTS)</li>
+    <ol>
+        <li>Authentication (Client)</li>
+        <li>Authentication (Server)</li>        
+        <li>Voices (Client)</li>
+        <li>Voices (Server)</li>        
+        <li>Speech Synthesis</li>
+    </ol>    
     <li>Conversation</li>
-</ul>    
+    <ol>
+        <li>Conversation Tooling</li>
+        <ol>
+            <li>Intents</li>
+            <li>Entities</li>
+            <li>Dialog</li>
+        </ol>
+        <li>Request Intent (Client)</li>
+        <li>Request Intent (Server)</li>
+        <li>Explore Intent Data</li>
+        <li>TTS Response (Dialog)</li>
+        <li><i>Intent to Watson IoT (Server)</i></li>
+        <li><i>Multistep Dialog</i></li>
+    </ol>
+    <li>Visual Recognition</li>
+    <ol>
+        <li>Multipart Forms with XHR2</li>
+        <li>Upload Image (Client)</li>
+        <li>Upload Image (Server)</li>
+        <li>Explore Classifier Data</li>
+        <li>TSS Response (Subject Matter)</li>
+        <li><i>Custom Classifier</i></li>
+    </ol>
+    <li>Translation</li>
+    <ol>
+        <li>Language Support (Client)</li>
+        <li>Language Support (Server)</li>
+        <li>Translation (Client)</li>
+        <li>Translation (Server)</li>
+        <li>Explore Translation Data</li>
+        <li>TTS Response (Translation)</li>
+        <li><i>Identify Language</i></li>
+    </ol>    
+    <li>Concept Extraction</li>
+    <ol>
+        <li>Isolate Target URL</li>
+        <li>Send URL to Watson (Server)</li>
+        <li>Explore Concept Data</li>
+        <li>Aggregate Concepts (Only)</li>
+        <li>TTS Response (Dominant Concept)</li>
+    </ol>
+    <li>Tone Analysis</li>
+    <ol>
+        <li>Send Document Content (Client)</li>
+        <li>Send Document Content (Server)</li>
+        <li>Explore Tone Data</li>
+        <li>Aggregate Tones (Only)</li>
+        <li>TTS Response (Dominant Tone)</li>
+    </ol>    
+    <li><i>Internet of Things</i></li>
+    <ol>
+        <li><i>Devices</i></li>
+        <li><i>Application Access</i></li>
+        <li><i>Authentication</i></li>
+        <li><i>Client Identification</i></li>
+        <li><i>Topic Construction</i></li>
+        <li><i>Publish to Topic</i></li>
+        <li><i>Subscribe to Topic</i></li>
+    </ol>        
+</ol>
     
-<ul>
-    <li>Workshop 0 - Starting boilerplate</li>
-    <li>Workshop 1 - Add speech-to-text library</li>
-    <li>STT 0 - </li>
-</ul>
+<h2>Overview</h2>    
+    
+<h3>What You Will Learn</h3>
+    
+<h4>Speech-To-Text</h4>    
+<p>
+    Speech-to-Text bridges the gap between the spoken word and its written form.
+    You will use machine intelligence to generate an accurate transcription.
+    Transcription will use continuous audio (WebSocket) as well as file upload.
+    The entire application leverages voice interactivity, and nothing will be typed to Watson.    
+</p>
+    
+<h4>Text-To-Speech</h4>        
+<p>
+    Text-to-Speech provides a REST API to synthesize speech audio from plain text.
+    Any response from Watson in the example application will be spoken using this service.
+</p>
+    
+<h4>Conversation</h4>    
+<p>
+    The Conversation services allows you to train and built a bot.
+    The system allows you to define intents and entities, and to control dialog flow.
+    Commonly used for chatbot service, the example application will also explore Internet of Things application.
+</p>
+    
+<h4>Visual Recognition</h4>    
+<p>
+    Visual Recognition allows you application to understand the contents of an image.
+    The service returns scores for relevant classifiers, representing things such as objects, events, and settings.
+    You can also train your own classifier to design custom image recognition pertinent to your business.
+</p>
+    
+<h4>Translation</h4>
+<p>
+    The Language Translation service utilizes Statistical Machine Translation to translate content in multiple language.
+    A string of text to be translated is provided, with a result in a specified language.    
+</p>
+    
+<h4>Concept Extraction</h4>    
+<p>
+    Concept extraction is a part of a broader service called, AlchemyLanguage.
+    AlchemyLanguage uses natural language processing to provide text analysis.
+    The results can provide an understanding of sentiment, keywords, entities, high-level concepts, and more.
+    You will provide a URL to the service.
+    The document at the URL will be processed, and the resulting data provided to the example application.
+</p>    
+    
+<h4>Tone Analysis</h4>    
+<p>
+    We have all experienced an email or text message that was not interpreted the way we expected.
+    Tone Analysis allows you to perform a linguisitcs analysis to detect emotion, social tendencies, and language style.
+    Emotions include anger, fear, joy, sadness, and disgust.
+    Personality traits include conscientiousness, extroversion, agreeableness, and emotional range.
+    Language styles include confident, analytical, and tentative.
+    You will provide a text document to the service and display the results.
+</p>
+    
+<h4>Internet of Things</h4>    
+<p>
+    Watson IoT allows you to securely connect and manage devices, and analyze data.
+    Unlike the language-oriented features of the rest of this workshop, Watson IoT centers around "big data" analysis.
+    The concepts behind big data analysis are beyond the scope of this workshop.
+    Time/interest permitting, a basic introduction to the core concepts will be demonstrated.
+</p>
+    
+<h2>Speech-To-Text (STT)</h2>    
+<p>
+    In this section you will learn to authenticate API requests for Watson Speech-To-Text.
+    You will then leverage the Watson Speech JavaScript library to capture audio.
+    While the audio is being processed, events will be surfaced that will be captured and displayed as necessary.
+    A transcript will be displayed for the the final results of the audio (microphone) capture.
+    You will also learn how to upload a pre-recorded audio file for processing (sessionless).
+</p>    
+    
+<h3>Authentication (Client)</h3>    
+<p>
+    Before we can use the STT service, we need to get an authentication token from it first.
+    To do this we will use XHR from the client, to our server.
+    The server will keep our credentials away from the visibility of the client.
+</p>
+<pre>
+// Get token
+xhr = new XMLHttpRequest();
+xhr.addEventListener( 'load', doTokenLoad );
+xhr.open( 'GET', '/stt/token', true );
+xhr.send( null );    			            
+</pre>
+
+<h3>Authentication (Server)</h3>    
+<p>
+    Getting an authentication token at the server requires that we use our service credentials for HTTP Basic Authorization.
+    The username and password for each Watson service is different.
+    We want to keep these away from the client.
+    A GET request against Watson STT token generation, will result in a string with the corresponding token.
+    Tokens are good for one hour, but we will renew the token with each STT operation.
+</p>
+    
+<h3>Audio Capture</h3>    
+<p>
+    With a token in hand, back on the client, we can then leverage one of two different STT methods.
+    One way is to use the microphone, while the other is to upload an audio file.
+</p>
+<pre>
+// Start stream to Watson
+// Either microphone or local file
+if( source == null ) {
+    watson = WatsonSpeech.SpeechToText.recognizeMicrophone( {
+        continuous: false,
+        objectMode: true,
+        token: xhr.responseText
+    } );
+} else {
+    watson = WatsonSpeech.SpeechToText.recognizeFile( {
+        data: source,
+        token: xhr.responseText
+    } );
+}        
+</pre>
+<p>
+    The Watson Speech JavaScript library, in the case of STT, is abstracting a number of complex touch points.
+    For example, audio capture through the browser.
+    Transcoding, or accessing the raw feed, and passing it into a WebSocket instance.
+    Handling WebSocket events to surface common behavior.    
+    This same technique (including WebSocket) is used on other platforms where STT libraries are available (iOS, Android).
+    Should you have a custom need, you can build against the WebSocket API directly.
+</p>
+    
+<h3>Capture Events</h3>
+<p>
+    The Watson Speech JavaScript library emits a few different events.
+    During the transcription process, a "data" event is emitted.
+    This event will show how Watson understand the latest context of the audio capture.
+    There is also an "end" event to let you know when Watson thinks the audio capture session is over.
+    You may also want to listen for errors.
+</p>
+<pre>
+// Transcription events
+watson.setEncoding( 'utf8' );
+watson.on( 'data', doWatsonData );
+watson.on( 'error', doWatsonError );
+watson.on( 'end', doWatsonEnd );                
+</pre>
+    
+<h3>Interim Results</h3>
+<p>
+    During audio capture, the data supplied in a "data" event is a JavaScript object with various properties.
+    Different alternatives, with confidence rankings are reported.
+    When using an audio file, the data supplied in the "data" event is a simple string.
+    It is important to track the data event, as final transcription is not provided in the "end" event.
+</p>
+<pre>
+// Track changes to transcript
+if( source == null ) {
+    // Copy full object
+    transcript = Object.assign( {}, data );
+
+    // Display current
+    emit( STT.PROGRESS, {
+        transcript: transcript.alternatives[transcript.index].transcript    
+    } );
+} else {
+    // Just a string
+    transcript = data;
+}        
+</pre>
+
+<h3>Final Results</h3>
+<p>
+    Depending on the means of audio capture, you will want to finalize which version of the transcript you intend to use at this point.
+    For the example application, we will only be surfacing the text of the final transcript result.
+    For microphone capture, this means getting into the resulting JavaScript object.
+    For an audio file upload, it means reporting the string result that was provided.
+</p>
+<pre>
+if( source == null ) {
+    transcript = transcript.alternatives[transcript.index].transcript;
+}        
+</pre>
+    
+<h2>Text-To-Speech (TTS)</h2>    
+<p>
+    
+</p>    
     
 </body>
 </html>
