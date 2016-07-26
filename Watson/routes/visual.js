@@ -64,6 +64,7 @@ router.post( '/recognition', upload.single( 'attachment' ), function( req, res )
         method: 'POST',
         url: url,
         formData: {
+			parameters: fs.createReadStream( __dirname + '/parameters.json' ),
             images_file: fs.createReadStream( __dirname + '/../' + req.file.path )
         }
     }, function( err, result, body ) {    

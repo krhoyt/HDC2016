@@ -74,7 +74,7 @@ var Tone = ( function() {
         /*
          * TODO: Aggregate tones
          */        
-        // Aggregate concepts
+        // Aggregate tones
         for( var t = 0; t < data.document_tone.tone_categories[0].tones.length; t++ ) {
             if( data.document_tone.tone_categories[0].tones[t].score >= getThreshold() ) {
                 tones.push( data.document_tone.tone_categories[0].tones[t].tone_name );

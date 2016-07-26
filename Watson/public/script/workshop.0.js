@@ -357,6 +357,7 @@ var Workshop = ( function() {
     var doVisualRecognize = function( evt ) {
         // Debug
         console.log( 'Visual recognition event.' );
+        console.log( evt.classifiers );
         
         // Speak and show result content
         reveal( 

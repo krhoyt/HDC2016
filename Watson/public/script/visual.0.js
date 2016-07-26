@@ -4,6 +4,19 @@ var Visual = ( function() {
     var subscribers = null;
     var xhr = null;
     
+    // Clean uploads
+    // Delete all uploaded files
+    var clean = function() {
+        // Debug
+        console.log( 'Cleaning ...' );
+        
+        // Tell server to clean up
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doCleanLoad );
+        xhr.open( 'DELETE', '/visual/clean', true );
+        xhr.send( null );
+    };    
+    
     // Fire an event
     var emit = function( name, data ) {
         // Debug
@@ -59,8 +72,15 @@ var Visual = ( function() {
         xhr.send( form );        
     };
     
+    // Called when uploads have been removed
+    var doCleanLoad = function() {
+        // Debug
+        console.log( 'Done.' );        
+    };    
+    
     // Response from Visual Recognition
     var doRecognizeLoad = function() {
+        var classifiers = null;
         var data = null;
         
         // Parse JSON
@@ -73,12 +93,24 @@ var Visual = ( function() {
         console.log( data );
         console.log( data.images[0].classifiers[0].classes[0].class );        
         
+        // Prepare result
+        classifiers = [];
+        
+        /* 
+         * TODO: Aggregate classifiers
+         */
+        // Aggregate classifiers
+        for( var c = 0; c < data.images[0].classifiers[0].classes.length; c++ ) {
+            classifiers.push( data.images[0].classifiers[0].classes[c].class ); 
+        }
+        
         /*
          * TODO: Emit image subject matter
          */
         // Emit event with results
         emit( Visual.RECOGNIZE, {
-            subject: data.images[0].classifiers[0].classes[0].class
+            subject: data.images[0].classifiers[0].classes[0].class,
+            classifiers: classifiers
         } );
         
         // Clean up
@@ -93,8 +125,10 @@ var Visual = ( function() {
     return {
         RECOGNIZE: 'visual_recognize',
         
+        clean: clean,
         on: on,
-        recognize: recognize
+        recognize: recognize,
+        reset: clean
     };
 
 } )();
