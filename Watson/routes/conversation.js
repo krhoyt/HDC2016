@@ -62,11 +62,14 @@ router.post( '/intent', function( req, res ) {
             };
         }
 
-        // Send device command
-        req.iot.publish( 
-            IOT_TOPIC, 
-            JSON.stringify( message ) 
-        );
+        // IoT oriented intent
+        if( message != null ) {
+            // Send device command
+            req.iot.publish( 
+                IOT_TOPIC, 
+                JSON.stringify( message ) 
+            );            
+        }
         
         // Client gets unparsed body content
 		res.send( body );
