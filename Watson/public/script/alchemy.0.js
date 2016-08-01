@@ -106,7 +106,8 @@ var Alchemy = ( function() {
     console.log( 'Alchemy Language' );
     
     // Default threshold
-    setThreshold( 0.75 );
+    // setThreshold( 0.75 );    
+    setThreshold( 0 );
     
     // Pointers
     return {

@@ -240,6 +240,7 @@ var Workshop = ( function() {
     var doLanguageComplete = function( evt ) {
         // Debug
         // console.log( 'Concept processing complete.' );
+        console.log( evt.concepts );
         
         // Speak and show concept result
         reveal( 
@@ -333,9 +334,8 @@ var Workshop = ( function() {
     // Speak and display the dominant tone
     var doToneComplete = function( evt ) {
         // Debug
-        // console.log( 'Tone analysis complete.' );
-        
-        console.log( evt );
+        // console.log( 'Tone analysis complete.' );        
+        console.log( evt.tones );
         
         // Speak and show concept result
         reveal( 

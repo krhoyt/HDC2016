@@ -106,7 +106,8 @@ var Tone = ( function() {
     console.log( 'Tone Analyzer' );
     
     // Default threshold
-    setThreshold( 0.50 );    
+    // setThreshold( 0.50 );    
+    setThreshold( 0 );    
     
     // Pointers
     return {
