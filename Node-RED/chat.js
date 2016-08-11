@@ -39,6 +39,8 @@ var Chat = ( function() {
         }    
     };
     
+    // Basic layout control
+    // Manages width to show search results
     var mode = function( value ) {
         if( value == FULL ) {
             input.style.right = '10px';

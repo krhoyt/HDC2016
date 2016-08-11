@@ -9,12 +9,18 @@ body {
 /* Activity chart */
 .activity {
     border-bottom: solid 1px rgba( 0, 0, 0, 0.20 );
-    border-left: solid 1px rgba( 0, 0, 0, 0.20 );    
     height: 36px;
     left: 110px;
     position: absolute;
     right: 265px;
     top: 10px;
+}
+
+/* Bar within the activity chart */
+.bar {
+    background-color: #66C5B5;
+    bottom: 0;
+    position: absolute;
 }
 
 /* Clear button */
@@ -81,6 +87,10 @@ body {
     padding-right: 10px;
     position: absolute;
     right: 10px;
+}
+
+.message:focus {
+    outline: red;
 }
 
 /* Placeholder text styling */

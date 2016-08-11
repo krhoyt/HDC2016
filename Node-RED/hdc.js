@@ -6,6 +6,10 @@ var HDC = ( function() {
         History.create( event.data );    
     };
     
+    var doHistoryLoad = function( event ) {
+        Analytics.process( event.data );
+    }
+    
     // Search field has been cleared
     // Reset UI to hide search results
     var doSearchClear = function( event ) {
@@ -27,6 +31,7 @@ var HDC = ( function() {
     console.log( 'HDC' );
     
     // Wire up listeners
+    History.addEventListener( History.LOAD, doHistoryLoad );
     Chat.addEventListener( Chat.MESSAGE, doChatMessage );
     Search.addEventListener( Search.RESULTS, doSearchResults );
     Search.addEventListener( Search.CLEAR, doSearchClear );

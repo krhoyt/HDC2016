@@ -2,12 +2,28 @@ var History = ( function() {
 
     // Constants
     var FULL = 'history_full';
+    var LOAD = 'history_load';
     var PARTIAL = 'history_partial';
     
     // Private
     var history = null;
+    var listeners = null;
     var xhr = null;
 
+    // Allow external event listeners
+    var addEventListener = function( name, callback ) {
+        // Create holder if needed
+        if( listeners == null ) {
+            listeners = [];
+        }
+        
+        // Track listeners
+        listeners.push( {
+            callback: callback,
+            name: name    
+        } );
+    };
+    
     // Create history line
     var create = function( data ) {
         var element = null;
@@ -21,6 +37,18 @@ var History = ( function() {
         // Add to history
         history.appendChild( element );        
     };    
+    
+    // Send event to listeners
+    var emit = function( name, value ) {
+        for( var c = 0; c < listeners.length; c++ ) {
+            if( listeners[c].name == name ) {
+                listeners[c].callback( {
+                    data: value,
+                    type: name
+                } );
+            }
+        }    
+    };       
     
     // Control size of component
     // Show search sidebar
@@ -41,6 +69,9 @@ var History = ( function() {
         
         // Debug
         console.log( data );
+        
+        // Chart history
+        emit( LOAD, data.rows );
         
         // Create history
         for( var h = 0; h < data.rows.length; h++ ) {
@@ -67,7 +98,9 @@ var History = ( function() {
     // Reveal
     return {
         FULL: FULL,
+        LOAD: LOAD,
         PARTIAL: PARTIAL,
+        addEventListener: addEventListener,
         create: create,
         mode: mode
     };
