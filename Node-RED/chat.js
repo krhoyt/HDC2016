@@ -1,26 +1,50 @@
 var Chat = ( function() {
         
+    // Constants
+    var FULL = 'chat_full';
+    var MESSAGE = 'chat_message';
+    var PARTIAL = 'chat_partial';
+    
     // Private
     var client = null;
     var color = null;
-    var history = null;
     var input = null;
+    var listeners = null;
     var placeholder = null;
     var socket = null;
-    var xhr = null;
     
-    // Create history line
-    var create = function( data ) {
-        var element = null;
+    // Allow external event listeners
+    var addEventListener = function( name, callback ) {
+        // Create holder if needed
+        if( listeners == null ) {
+            listeners = [];
+        }
         
-        // Build element
-        element = document.createElement( 'div' );
-        element.style.color = data.color;
-        element.innerHTML = data.text;
-        element.setAttribute( 'data-client', data.client );        
-        
-        // Add to history
-        history.appendChild( element );        
+        // Track listeners
+        listeners.push( {
+            callback: callback,
+            name: name    
+        } );
+    };
+    
+    // Send event to listeners
+    var emit = function( name, value ) {
+        for( var c = 0; c < listeners.length; c++ ) {
+            if( listeners[c].name == name ) {
+                listeners[c].callback( {
+                    data: value,
+                    type: name
+                } );
+            }
+        }    
+    };
+    
+    var mode = function( value ) {
+        if( value == FULL ) {
+            input.style.right = '10px';
+        } else if( value == PARTIAL ) {
+            input.style.right = '265px';
+        }
     };
     
     // Placeholder access methods
@@ -40,26 +64,6 @@ var Chat = ( function() {
         // Store for reference
         placeholder = value;
     };
-    
-    // Populates chat history
-    var doHistoryLoad = function() {
-        var data = null;
-        
-        // Parse JSON
-        data = JSON.parse( xhr.responseText );
-        
-        // Debug
-        console.log( data );
-        
-        // Create history
-        for( var h = 0; h < data.length; h++ ) {
-            create( data[h] );
-        }
-        
-        // Clean up
-        xhr.removeEventListener( 'load', doHistoryLoad );
-        xhr = null;
-    }
     
     // Focus removed from message input
     var doInputBlur = function() {
@@ -85,24 +89,27 @@ var Chat = ( function() {
     // Watch for <Enter> key to send
     var doInputKey = function( event ) {
         // <Enter> key with message to send
-        if( event.keyCode == 13 && input.innerHTML.trim().length > 0 ) {
-            
+        if( event.keyCode == 13) {
+            // Stop default behavior
+            // Default will insert line break
             event.preventDefault();
             event.stopPropagation();
             
-            // Send the message
-            socket.send( JSON.stringify( {
-                client: client,
-                color: color,
-                text: input.innerHTML.trim(),
-                timestamp: Date.now()
-            } ) );
-            
-            // Clear the message
-            // Focus remains for more messages
-            input.innerHTML = '';
+            // Check for content to send
+            if( input.innerHTML.trim().length > 0 ) {
+                // Send the message
+                socket.send( JSON.stringify( {
+                    client: client,
+                    color: color,
+                    text: input.innerHTML.trim()
+                } ) );
+
+                // Clear the message
+                // Focus remains for more messages
+                input.innerHTML = '';                
+            }
         }
-    }
+    };
     
     // Received message from 
     var doSocketMessage = function( message ) {
@@ -115,7 +122,7 @@ var Chat = ( function() {
         console.log( data );
         
         // Create chat message
-        create( data );
+        emit( MESSAGE, data );
     };
     
     // Connected to WebSocket server
@@ -128,8 +135,8 @@ var Chat = ( function() {
         input.contentEditable = true;
     };
     
-    // Debug
-    console.log( 'WebSocket' );
+    // Initialize
+    console.log( 'Chat' );
 
     // Unique client identifier
     client = 'hdc_' + Math.round( Math.random() * 1000 );
@@ -138,11 +145,8 @@ var Chat = ( function() {
     color = 'rgb( ' + 
         Math.round( Math.random() * 255 ) + ', ' +
         Math.round( Math.random() * 255 ) + ', ' +
-        Math.round( Math.random() * 255 )        
+        Math.round( Math.random() * 255 ) +       
     ' )';
-    
-    // Reference to message history element
-    history = document.querySelector( '.history' );
     
     // Reference to message input element
     // Configure event listeners
@@ -159,16 +163,15 @@ var Chat = ( function() {
     socket.addEventListener( 'open', doSocketOpen );
     socket.addEventListener( 'message', doSocketMessage );
     
-    // Get history
-    xhr = new XMLHttpRequest();
-    xhr.addEventListener( 'load', doHistoryLoad );
-    xhr.open( 'GET', 'http://visual.mybluemix.net/hdc/chat', true );
-    xhr.send( null );
-    
     // Reveal
     return {
+        FULL: FULL,
+        MESSAGE: MESSAGE,        
+        PARTIAL: PARTIAL,
+        addEventListener: addEventListener,
         getPlaceholder: getPlaceholder,
-        setPlaceholder: setPlaceholder
+        setPlaceholder: setPlaceholder,
+        mode: mode
     };
     
 } )();
