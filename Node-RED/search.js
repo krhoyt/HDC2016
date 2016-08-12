@@ -2,6 +2,7 @@ var Search = ( function() {
     
     // Constants
     var CLEAR = 'search_clear';
+    var PATH = 'http://localhost:1880/hdc/chat/search';
     var RESULTS = 'search_results';
     
     // Private
@@ -108,7 +109,7 @@ var Search = ( function() {
                 // Search the database
                 xhr = new XMLHttpRequest();
                 xhr.addEventListener( 'load', doSearchLoad );
-                xhr.open( 'POST', 'https://visual.mybluemix.net/hdc/chat/search', true );
+                xhr.open( 'POST', PATH, true );
                 xhr.setRequestHeader( 'Content-Type', 'application/json' );
                 xhr.send( JSON.stringify( {
                     text: input.innerHTML.trim()

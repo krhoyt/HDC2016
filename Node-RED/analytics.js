@@ -31,7 +31,7 @@ var Analytics = ( function() {
         start_time = data[0].value.timestamp;
         end_time = data[data.length - 1].value.timestamp;
         duration_time = end_time - start_time;
-        days = duration_time / MILLIS;        
+        days = ( duration_time / MILLIS ) + 1;        
         start_date = new Date( start_time );        
         
         /*

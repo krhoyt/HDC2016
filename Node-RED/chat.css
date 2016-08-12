@@ -61,7 +61,12 @@ body {
     padding-right: 10px;
     padding-top: 7px;
 }
-  
+ 
+/* No underline on last element in list */
+.history > div:last-of-type {
+    border-bottom: none;
+}
+
 /* Conference logo */
 .logo {
     background-image: url( hdc.svg );
@@ -93,10 +98,30 @@ body {
     outline: red;
 }
 
+.microphone {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 25px;
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    visibility: hidden;
+    width: 25px;
+}
+
 /* Placeholder text styling */
 .placeholder {
     color: rgba( 0, 0, 0, 0.40 );
 }    
+
+.ready {
+    background-image: url( microphone.svg );    
+}
+
+.recording {
+    background-image: url( recording.svg );    
+}
 
 /* Search results area */
 .results {

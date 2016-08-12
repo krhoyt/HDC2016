@@ -4,14 +4,19 @@ var Chat = ( function() {
     var FULL = 'chat_full';
     var MESSAGE = 'chat_message';
     var PARTIAL = 'chat_partial';
+    var PATH = 'ws://localhost:1880/ws/chat';
+    var TOKEN = 'http://localhost:1880/hdc/token';
     
     // Private
     var client = null;
     var color = null;
     var input = null;
     var listeners = null;
+    var microphone = null;
     var placeholder = null;
     var socket = null;
+    var watson = null;
+    var xhr = null;
     
     // Allow external event listeners
     var addEventListener = function( name, callback ) {
@@ -47,6 +52,27 @@ var Chat = ( function() {
         } else if( value == PARTIAL ) {
             input.style.right = '265px';
         }
+    };
+    
+    // Send a chat message via WebSocket
+    var send = function( message ) {
+        if( message == null ) {
+            message = input.innerHTML.trim();
+        }
+        
+        // Check for content to send
+        if( message.length > 0 ) {
+            // Send the message
+            socket.send( JSON.stringify( {
+                client: client,
+                color: color,
+                text: message
+            } ) );
+
+            // Clear the message
+            // Focus remains for more messages
+            input.innerHTML = '';                
+        }    
     };
     
     // Placeholder access methods
@@ -97,20 +123,27 @@ var Chat = ( function() {
             event.preventDefault();
             event.stopPropagation();
             
-            // Check for content to send
-            if( input.innerHTML.trim().length > 0 ) {
-                // Send the message
-                socket.send( JSON.stringify( {
-                    client: client,
-                    color: color,
-                    text: input.innerHTML.trim()
-                } ) );
-
-                // Clear the message
-                // Focus remains for more messages
-                input.innerHTML = '';                
-            }
+            // Send chat message
+            send( null );
         }
+    };
+    
+    // Microphone activated
+    // Get Watson token
+    var doMicrophoneClick = function() {
+        // No clicking while recording
+        microphone.removeEventListener( 'click', doMicrophoneClick );        
+        
+        // Hide from view while getting token        
+        TweenMax.to( microphone, 0.50,  {
+            opacity: 0    
+        } );
+        
+        // Get token
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doWatsonToken );
+        xhr.open( 'GET', TOKEN, true );
+        xhr.send( null );
     };
     
     // Received message from 
@@ -135,6 +168,77 @@ var Chat = ( function() {
     
         // Make input editable
         input.contentEditable = true;
+        
+        // Allow voice transcription
+        microphone.style.visibility = 'visible';
+        microphone.addEventListener( 'click', doMicrophoneClick );
+    };
+    
+    // Watson authentication token loaded
+    // Start listening
+    var doWatsonToken = function() {        
+        // Place focus on input field
+        input.focus();
+        
+        // Change up microphone icon
+        microphone.classList.remove( 'ready' );
+        microphone.classList.add( 'recording' );
+        
+        // Show recording status        
+        TweenMax.to( microphone, 0.50, {
+            opacity: 1    
+        } );
+        
+        // Start transcription
+        watson = WatsonSpeech.SpeechToText.recognizeMicrophone( {
+            continuous: false,
+            objectMode: true,
+            token: xhr.responseText
+        } );        
+        
+        // Transcription events
+        watson.setEncoding( 'utf8' );
+        watson.on( 'data', doWatsonData );
+        watson.on( 'error', doWatsonError );
+        watson.on( 'end', doWatsonEnd );          
+        
+        // Clean up
+        xhr.removeEventListener( 'load', doWatsonToken );
+        xhr = null;
+    };
+    
+    // Ongoing transcription events
+    var doWatsonData = function( data ) {
+        input.innerHTML = data.alternatives[data.index].transcript;
+    };
+    
+    // Fail
+    var doWatsonError = function( err ) {
+        // Debug
+        console.log( 'Watson error.' );
+        console.log( err );
+    };    
+    
+    // Stream capture ended
+    // Move cursor to end of text
+    var doWatsonEnd = function() {
+        var range = null;
+        var selection = null;
+        
+        // Create text range
+        range = document.createRange();
+        range.setStart( input.firstChild, input.innerHTML.trim().length );
+        range.collapse( true );
+        
+        // Apply selection using given range
+        selection = window.getSelection();                
+        selection.removeAllRanges();
+        selection.addRange( range );
+        
+        // Revert microphone to ready
+        microphone.classList.remove( 'recording' );
+        microphone.classList.add( 'ready' );
+        microphone.addEventListener( 'click', doMicrophoneClick );
     };
     
     // Initialize
@@ -150,6 +254,10 @@ var Chat = ( function() {
         Math.round( Math.random() * 255 ) +       
     ' )';
     
+    // Reference to microphone element
+    // Speech-to-Text
+    microphone = document.querySelector( '.microphone' );
+    
     // Reference to message input element
     // Configure event listeners
     input = document.querySelector( '.message' );
@@ -161,7 +269,7 @@ var Chat = ( function() {
     setPlaceholder( input.innerHTML );
     
     // Initialize
-    socket = new WebSocket( 'ws://visual.mybluemix.net/ws/chat' );
+    socket = new WebSocket( PATH );
     socket.addEventListener( 'open', doSocketOpen );
     socket.addEventListener( 'message', doSocketMessage );
     

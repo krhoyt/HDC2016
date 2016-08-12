@@ -1,9 +1,10 @@
 var History = ( function() {
-
+    
     // Constants
     var FULL = 'history_full';
     var LOAD = 'history_load';
     var PARTIAL = 'history_partial';
+    var PATH = 'http://localhost:1880/hdc/chat';
     
     // Private
     var history = null;
@@ -33,9 +34,14 @@ var History = ( function() {
         element.style.color = data.color;
         element.innerHTML = data.text;
         element.setAttribute( 'data-client', data.client );        
-        
+                
         // Add to history
-        history.appendChild( element );        
+        history.appendChild( element );      
+        
+        // Show last element
+        if( history.scrollHeight > history.clientHeight ) {    
+            element.scrollIntoView( false );
+        }       
     };    
     
     // Send event to listeners
@@ -92,7 +98,7 @@ var History = ( function() {
     // Get history
     xhr = new XMLHttpRequest();
     xhr.addEventListener( 'load', doHistoryLoad );
-    xhr.open( 'GET', 'http://visual.mybluemix.net/hdc/chat', true );
+    xhr.open( 'GET', PATH, true );
     xhr.send( null );    
     
     // Reveal
