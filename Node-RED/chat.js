@@ -49,8 +49,10 @@ var Chat = ( function() {
     var mode = function( value ) {
         if( value == FULL ) {
             input.style.right = '10px';
+            microphone.style.right = '16px';
         } else if( value == PARTIAL ) {
             input.style.right = '265px';
+            microphone.style.right = '271px';
         }
     };
     

@@ -6,8 +6,14 @@ var HDC = ( function() {
         History.create( event.data );    
     };
     
+    // Chart history
     var doHistoryLoad = function( event ) {
-        Analytics.process( event.data );
+        // If implemented
+        if( typeof Analytics === 'undefined' || Analytics === null ) {        
+            console.log( 'Analytics not implmented.' );
+        } else {
+            Analytics.process( event.data );            
+        }
     }
     
     // Search field has been cleared
@@ -33,9 +39,15 @@ var HDC = ( function() {
     // Wire up listeners
     History.addEventListener( History.LOAD, doHistoryLoad );
     Chat.addEventListener( Chat.MESSAGE, doChatMessage );
-    Search.addEventListener( Search.RESULTS, doSearchResults );
-    Search.addEventListener( Search.CLEAR, doSearchClear );
-    
+
+    // Add search if library is available    
+    if( typeof Search === 'undefined' || Search === null ) {
+        console.log( 'Search not implemented.' );
+    } else {
+        Search.addEventListener( Search.RESULTS, doSearchResults );
+        Search.addEventListener( Search.CLEAR, doSearchClear );                
+    }
+
     // Reveal
     return {
         
