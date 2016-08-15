@@ -50,7 +50,7 @@ var HDC = ( function() {
 
     // Reveal
     return {
-        
+
     };
     
 } )();

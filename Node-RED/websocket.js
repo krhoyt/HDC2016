@@ -1,4 +1,4 @@
-var PATH = 'ws://localhost:1880/ws/chat';
+var PATH = 'ws://' + ROOT_PATH + '/ws/chat';
 
 var client = null;
 var color = null;

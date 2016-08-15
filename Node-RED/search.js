@@ -2,7 +2,7 @@ var Search = ( function() {
     
     // Constants
     var CLEAR = 'search_clear';
-    var PATH = 'http://localhost:1880/hdc/chat/search';
+    var PATH = 'https://' + ROOT_PATH + '/hdc/chat/search';
     var RESULTS = 'search_results';
     
     // Private

@@ -4,7 +4,7 @@ var History = ( function() {
     var FULL = 'history_full';
     var LOAD = 'history_load';
     var PARTIAL = 'history_partial';
-    var PATH = 'http://localhost:1880/hdc/chat';
+    var PATH = 'http://' + ROOT_PATH + '/hdc/chat';
     
     // Private
     var history = null;
@@ -46,6 +46,12 @@ var History = ( function() {
     
     // Send event to listeners
     var emit = function( name, value ) {
+        // Little demo help
+        if( listeners == null ) {
+            console.log( 'You forgot to include "hdc.js" in the HTML page.' );
+            return;
+        }
+        
         for( var c = 0; c < listeners.length; c++ ) {
             if( listeners[c].name == name ) {
                 listeners[c].callback( {

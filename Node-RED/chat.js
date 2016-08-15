@@ -4,8 +4,8 @@ var Chat = ( function() {
     var FULL = 'chat_full';
     var MESSAGE = 'chat_message';
     var PARTIAL = 'chat_partial';
-    var PATH = 'ws://localhost:1880/ws/chat';
-    var TOKEN = 'http://localhost:1880/hdc/token';
+    var PATH = 'ws://' + ROOT_PATH + '/ws/chat';
+    var TOKEN = 'http://' + ROOT_PATH + '/hdc/token';
     
     // Private
     var client = null;
