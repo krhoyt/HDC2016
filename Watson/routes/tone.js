@@ -18,7 +18,7 @@ router.post( '/analyze', function( req, res ) {
 		req.config.tone.password
 	).toString( 'base64' );
 	
-    // Request token
+    // Request analysis
 	request( {
 		method: 'POST',
 		url: req.config.tone.url + VERSION,	

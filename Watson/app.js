@@ -1,4 +1,5 @@
 var cfenv = require( 'cfenv' );
+var cors = require( 'cors' );
 var express = require( 'express' );
 var jsonfile = require( 'jsonfile' );
 var mqtt = require( 'mqtt' );
@@ -33,11 +34,14 @@ app.use( parser.urlencoded( {
 	extended: false 
 } ) );
 
+// Cross domain access
+app.use( cors() );
+
 // Per-request actions
 app.use( function( req, res, next ) {
 	// Cross domain support
-	res.header( 'Access-Control-Allow-Origin', '*' );
-	res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept' );	
+	// res.header( 'Access-Control-Allow-Origin', '*' );
+	// res.header( 'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept' );	
 	
 	// Configuration
 	req.config = config;
