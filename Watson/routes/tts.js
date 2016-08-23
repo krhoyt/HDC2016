@@ -43,7 +43,7 @@ router.get( '/voices', function( req, res ) {
 		req.config.tts.password
 	).toString( 'base64' );
 	
-    // get voice list
+    // Get voice list
 	request( {
 		method: 'GET',
 		url: WATSON_VOICES + '?url=' + req.config.tts.url,	
