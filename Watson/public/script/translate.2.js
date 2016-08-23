@@ -49,6 +49,16 @@ var Translate = ( function() {
         /*
          * TODO: Post content to translate
          */
+        // Request translation
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doTranslateLoad );
+        xhr.open( 'POST', '/translate/to', true );
+        xhr.setRequestHeader( 'Content-Type', 'application/json' );            
+        xhr.send( JSON.stringify( {
+            source: getSource(),
+            target: getTarget(),
+            text: content
+        } ) );
     };
     
     var doTranslateLoad = function() {
@@ -117,6 +127,10 @@ var Translate = ( function() {
     /*
      * TODO: Get possible languages
      */
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener( 'load', doVoicesLoad );
+    xhr.open( 'GET', '/translate/languages', true );
+    xhr.send( null );
     
     // Pointers
     return {

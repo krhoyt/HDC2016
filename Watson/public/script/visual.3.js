@@ -58,10 +58,18 @@ var Visual = ( function() {
         /*
          * TODO: Form data for upload
          */
+        // Build multipart form
+        form = new FormData();
+        form.append( 'attachment', object );
         
         /*
          * TODO: Upload file
          */
+        // Submit form for processing
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doRecognizeLoad );
+        xhr.open( 'POST', '/visual/recognition' );
+        xhr.send( form );        
     };
     
     // Called when uploads have been removed
@@ -88,6 +96,10 @@ var Visual = ( function() {
         /* 
          * TODO: Aggregate classifiers
          */
+        // Aggregate classifiers
+        for( var c = 0; c < data.images[0].classifiers[0].classes.length; c++ ) {
+            classifiers.push( data.images[0].classifiers[0].classes[c].class ); 
+        }
         
         // Emit event with results
         emit( Visual.RECOGNIZE, {

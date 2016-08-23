@@ -14,6 +14,9 @@ var TTS = ( function() {
         // Store for reference
         content = dialog;
         
+        /*
+         * TODO: XHR request for token
+         */
         // Get token
         xhr = new XMLHttpRequest();
         xhr.addEventListener( 'load', doTokenLoad );
@@ -31,6 +34,12 @@ var TTS = ( function() {
         /*
          * TODO: Synthesize speech
          */
+        // Speak the intent
+        WatsonSpeech.TextToSpeech.synthesize( {
+            text: content,
+            token: xhr.responseText,
+            voice: current            
+        } );
 
         // Clean up
         xhr.removeEventListener( 'load', doTokenLoad );
@@ -70,6 +79,11 @@ var TTS = ( function() {
     /*
      * TODO: Get voices
      */
+    // Initial load of various voices
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener( 'load', doVoicesLoad );
+    xhr.open( 'GET', '/tts/voices', true );
+    xhr.send( null );
     
     // Debug
     console.log( 'Text-To-Speech' );

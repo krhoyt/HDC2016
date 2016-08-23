@@ -12,6 +12,14 @@ var Conversation = ( function() {
         /*
          * TODO: Request intent from Watson
          */
+        // Determine intent
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doIntentLoad );
+        xhr.open( 'POST', '/conversation/intent', true );
+        xhr.setRequestHeader( 'Content-Type', 'application/json' );    
+        xhr.send( JSON.stringify( {
+            text: phrase
+        } ) );            
     };
 
     // Fire an event

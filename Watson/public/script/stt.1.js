@@ -62,6 +62,11 @@ var STT = ( function() {
         /*
          * TODO: XHR request for token
          */
+        // Get token
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doTokenLoad );
+        xhr.open( 'GET', '/stt/token', true );
+        xhr.send( null );    			            
     };
     
     // Token retrieved

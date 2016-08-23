@@ -49,6 +49,16 @@ var Translate = ( function() {
         /*
          * TODO: Post content to translate
          */
+        // Request translation
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doTranslateLoad );
+        xhr.open( 'POST', '/translate/to', true );
+        xhr.setRequestHeader( 'Content-Type', 'application/json' );            
+        xhr.send( JSON.stringify( {
+            source: getSource(),
+            target: getTarget(),
+            text: content
+        } ) );
     };
     
     var doTranslateLoad = function() {
@@ -57,10 +67,16 @@ var Translate = ( function() {
         // Parse JSON response        
         data = JSON.parse( xhr.responseText );
         
-        // Sampling of translation data
+        /*
+         * TODO: Explore return data
+         */
+        // Debug
         console.log( data );
         console.log( data.translations[0].translation );
         
+        /*
+         * TODO: Emit translation
+         */
         emit( Translate.COMPLETE, {
             translation: data.translations[0].translation
         } );
@@ -117,6 +133,10 @@ var Translate = ( function() {
     /*
      * TODO: Get possible languages
      */
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener( 'load', doVoicesLoad );
+    xhr.open( 'GET', '/translate/languages', true );
+    xhr.send( null );
     
     // Pointers
     return {

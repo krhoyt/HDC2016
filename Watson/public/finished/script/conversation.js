@@ -12,6 +12,14 @@ var Conversation = ( function() {
         /*
          * TODO: Request intent from Watson
          */
+        // Determine intent
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doIntentLoad );
+        xhr.open( 'POST', '/conversation/intent', true );
+        xhr.setRequestHeader( 'Content-Type', 'application/json' );    
+        xhr.send( JSON.stringify( {
+            text: phrase
+        } ) );            
     };
 
     // Fire an event
@@ -55,7 +63,9 @@ var Conversation = ( function() {
         // Debug
         console.log( 'Intent retrieved.' );
         
-        // Sampling of intent results
+        /*
+         * TODO: Explore intent results
+         */ 
         console.log( data );
         console.log( data.intents[0].intent );
         console.log( data.output.text[0] );
@@ -63,6 +73,12 @@ var Conversation = ( function() {
         /*
          * TODO: Emit intent details
          */
+        // Notify UI of discovered intent
+        // UI will display and speak results
+        emit( Conversation.INTENT, {
+            intent: data.intents[0].intent,
+            text: data.output.text[0]
+        } );        
         
         // Clean up
         xhr.removeEventListener( 'load', doIntentLoad );

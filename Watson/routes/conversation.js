@@ -10,7 +10,7 @@ var WORKSPACE = '/v1/workspaces/';
 // Router
 var router = express.Router();
 
-// Access token
+// Discover intent
 router.post( '/intent', function( req, res ) {
 	var hash = null;
     var url = null;

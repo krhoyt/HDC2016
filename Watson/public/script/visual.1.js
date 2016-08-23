@@ -58,6 +58,9 @@ var Visual = ( function() {
         /*
          * TODO: Form data for upload
          */
+        // Build multipart form
+        form = new FormData();
+        form.append( 'attachment', object );
         
         /*
          * TODO: Upload file

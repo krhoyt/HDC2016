@@ -62,6 +62,11 @@ var STT = ( function() {
         /*
          * TODO: XHR request for token
          */
+        // Get token
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doTokenLoad );
+        xhr.open( 'GET', '/stt/token', true );
+        xhr.send( null );    			            
     };
     
     // Token retrieved
@@ -75,10 +80,24 @@ var STT = ( function() {
         /*
          * TODO: Send content to Watson
          */
+        // Start stream to Watson
+        // Either microphone or local file
+        if( source == null ) {
+            watson = WatsonSpeech.SpeechToText.recognizeMicrophone( {
+                continuous: false,
+                objectMode: true,
+                token: xhr.responseText
+            } );
+        } else {
+            watson = WatsonSpeech.SpeechToText.recognizeFile( {
+                data: source,
+                token: xhr.responseText
+            } );
+        }        
         
         /*
          * TODO: Transcription events
-         */
+         */            
         
         // Clean up
         xhr.removeEventListener( 'load', doTokenLoad );

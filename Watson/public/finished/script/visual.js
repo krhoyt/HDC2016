@@ -58,10 +58,18 @@ var Visual = ( function() {
         /*
          * TODO: Form data for upload
          */
+        // Build multipart form
+        form = new FormData();
+        form.append( 'attachment', object );
         
         /*
-         * TODO: Upload file
+         * Upload file
          */
+        // Submit form for processing
+        xhr = new XMLHttpRequest();
+        xhr.addEventListener( 'load', doRecognizeLoad );
+        xhr.open( 'POST', '/visual/recognition' );
+        xhr.send( form );        
     };
     
     // Called when uploads have been removed
@@ -78,7 +86,10 @@ var Visual = ( function() {
         // Parse JSON
         data = JSON.parse( xhr.responseText );
         
-        // Sampling of classifier results
+        /*
+         * TODO: Explore resulting data
+         */
+        // Debug
         console.log( data );
         console.log( data.images[0].classifiers[0].classes[0].class );        
         
@@ -88,7 +99,14 @@ var Visual = ( function() {
         /* 
          * TODO: Aggregate classifiers
          */
+        // Aggregate classifiers
+        for( var c = 0; c < data.images[0].classifiers[0].classes.length; c++ ) {
+            classifiers.push( data.images[0].classifiers[0].classes[c].class ); 
+        }
         
+        /*
+         * TODO: Emit image subject matter
+         */
         // Emit event with results
         emit( Visual.RECOGNIZE, {
             subject: data.images[0].classifiers[0].classes[0].class,

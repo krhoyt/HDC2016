@@ -70,6 +70,11 @@ var TTS = ( function() {
     /*
      * TODO: Get voices
      */
+    // Initial load of various voices
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener( 'load', doVoicesLoad );
+    xhr.open( 'GET', '/tts/voices', true );
+    xhr.send( null );
     
     // Debug
     console.log( 'Text-To-Speech' );

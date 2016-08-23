@@ -117,6 +117,11 @@ var Translate = ( function() {
     /*
      * TODO: Get possible languages
      */
+    // Get possible languages
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener( 'load', doVoicesLoad );
+    xhr.open( 'GET', '/translate/languages', true );
+    xhr.send( null );
     
     // Pointers
     return {
