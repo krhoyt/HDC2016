@@ -99,6 +99,10 @@ Concept extraction is a part of a broader service called, AlchemyLanguage. Alche
 
 We have all experienced an email or text message that was not interpreted the way we expected. Tone Analysis allows you to perform a linguistics analysis to detect emotion, social tendencies, and language style. Emotions include anger, fear, joy, sadness, and disgust. Personality traits include conscientiousness, extroversion, agreeableness, and emotional range. Language styles include confident, analytical, and tentative. You will provide a text document to the service and display the results.
 
+**Personality Insights**
+
+How well do you know your customers? Do you know what drives them to visit your site? Buy your products? Who is the best match to be recruited at your company? Who might be the best fit for university admissions? Can we optimize the placement of criminals in jail to avoid physical confrontation? Knowing something about who we are gives your application tremendous power.
+
 **Internet of Things**
 
 Watson IoT allows you to securely connect and manage devices, and analyze data. Unlike the language-oriented features of the rest of this workshop, Watson IoT centers around "big data" analysis. The concepts behind big data analysis are beyond the scope of this workshop. Time/interest permitting, a basic introduction to the core concepts will be demonstrated.
