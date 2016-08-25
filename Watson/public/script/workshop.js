@@ -5,6 +5,7 @@ var Workshop = ( function() {
     var original = null;
     var prompt = null;
     var reader = null;
+    var shift = false;
     
     var progress = function() {
         // Hide input button
@@ -38,7 +39,7 @@ var Workshop = ( function() {
         // Display prompt
         TweenMax.to( prompt, 0.50, {
             opacity: 1
-        } );                    
+        } );                                
         
         // Speak results of image content
         TTS.say( message )
@@ -149,7 +150,7 @@ var Workshop = ( function() {
         var source = null;
         
         // Debug
-        console.log( 'File(s) dropped.' );
+        console.log( evt );
 
         // Stop default browser behavior
         // Which will try to display the content
@@ -190,6 +191,9 @@ var Workshop = ( function() {
             // Recognize
             Visual.recognize( source );
         } else if( source.type.indexOf( 'text' ) >= 0 ) {
+            // Alternative action with contents
+            shift = evt.shiftKey;
+            
             // Indicate the processing is happening
             progress();
             
@@ -221,13 +225,21 @@ var Workshop = ( function() {
     };
     
     // Called when a local file has been read
-    // Sends text content to Tone Analysis
+    // Sends text content to Watson services
     var doFileLoad = function() {
         // Debug
         console.log( 'File read complete.' );
-        
-        // Send to Tone Analysis
-        Tone.analyze( reader.result );
+
+        // Support multiple actions
+        // Tone analysis
+        // Personality insight
+        if( shift ) {
+            // Send to Personality Insights
+            Personality.insights( reader.result );
+        } else {
+            // Send to Tone Analysis
+            Tone.analyze( reader.result );            
+        }
         
         // Clean up
         reader.removeEventListener( 'load', doFileLoad );
@@ -249,6 +261,21 @@ var Workshop = ( function() {
             '.' 
         );
     };
+    
+    // Called when personality analysis is complete
+    // Speak and display the dominant wants
+    var doPersonalityComplete = function( evt ) {
+        // Debug
+        // console.log( 'Personality insight complete.' );        
+        console.log( evt.needs );
+        
+        // Speak and show personality results
+        reveal( 
+            'This person wants ' + 
+            evt.needs[0].toLowerCase() + 
+            '.' 
+        );        
+    };    
     
     // Called when the prompt area is clicked
     // Translates diplayed content
@@ -343,7 +370,7 @@ var Workshop = ( function() {
         // console.log( 'Tone analysis complete.' );        
         console.log( evt.tones );
         
-        // Speak and show concept result
+        // Speak and show dominant tone
         reveal( 
             'The dominant tone is ' + 
             evt.tones[0].toLowerCase() + 
@@ -411,6 +438,10 @@ var Workshop = ( function() {
     if( typeof Tone !== 'undefined' ) {
         Tone.on( Tone.COMPLETE, doToneComplete );
     }
+    
+    if( typeof Personality !== 'undefined' ) {
+        Personality.on( Personality.COMPLETE, doPersonalityComplete );
+    }    
     
     // Debug
     console.log( 'Workshop' );

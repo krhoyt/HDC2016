@@ -41,7 +41,7 @@ router.post( '/identify', function( req, res ) {
 	} );    
 } );
 
-// Access token
+// Translation
 router.post( '/to', function( req, res ) {
 	var hash = null;
     var url = null;

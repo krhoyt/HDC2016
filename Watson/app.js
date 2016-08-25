@@ -62,6 +62,7 @@ app.use( '/visual', require( './routes/visual' ) );
 app.use( '/translate', require( './routes/translate' ) );
 app.use( '/alchemy', require( './routes/alchemy' ) );
 app.use( '/tone', require( './routes/tone' ) );
+app.use( '/personality', require( './routes/personality' ) );
 
 // Cloud Foundry support
 // Bluemix
