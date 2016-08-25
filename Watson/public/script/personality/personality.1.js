@@ -67,9 +67,9 @@ var Personality = ( function() {
         /*
          * TODO: Aggregate needs
          */        
+        // Look for the needs part of the tree
         for( var t = 0; t < data.tree.children.length; t++ ) {
-            if( data.tree.children[t].id == "needs" ) {
-                
+            if( data.tree.children[t].id == "needs" ) {                
                 // Abbreviate node traversal
                 tree = data.tree.children[t].children[0].children;
                 

@@ -6,7 +6,7 @@ var VERSION = '/v3/tone?version=2016-05-19';
 // Router
 var router = express.Router();
 
-// Access token
+// Analyze the tones
 router.post( '/analyze', function( req, res ) {
 	var hash = null;
 	
