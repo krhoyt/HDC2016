@@ -53,12 +53,12 @@ router.post( '/intent', function( req, res ) {
         if( body.intents[0].intent == 'turn_on' ) {
             // Turn the light on
             message = {
-                light: true    
+                light: 1    
             };
         } else if( body.intents[0].intent == 'turn_off' ) {
             // Turn the light off
             message = {
-                light: false    
+                light: 0    
             };
         }
 
