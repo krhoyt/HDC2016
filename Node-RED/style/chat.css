@@ -27,7 +27,7 @@ body {
 /* Little hacky on the placement */
 /* I got lazy */
 .clear {
-    background-image: url( clear.svg );
+    background-image: url( ../img/clear.svg );
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -69,7 +69,7 @@ body {
 
 /* Conference logo */
 .logo {
-    background-image: url( hdc.svg );
+    background-image: url( ../img/hdc.svg );
     background-position: center;
     background-repeat: no-repeat;
     background-size: 75%;
@@ -116,11 +116,11 @@ body {
 }    
 
 .ready {
-    background-image: url( microphone.svg );    
+    background-image: url( ../img/microphone.svg );    
 }
 
 .recording {
-    background-image: url( recording.svg );    
+    background-image: url( ../img/recording.svg );    
 }
 
 /* Search results area */
