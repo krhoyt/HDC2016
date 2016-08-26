@@ -29,7 +29,7 @@
 
     return msg;
 
- - Store History (krhoyt.cloudant.com, hdc, insert)
+ - Store History (hdc, insert)
 
 **Get History**
 
@@ -38,6 +38,7 @@
 	 - GET
 	 - https://krhoyt.cloudant.com/hdc/_design/chat/_view/by_timestamp?descending=false
 	 - Basic Authentication
+	 - 
  - HTTP Out
  - Comment Out (websocket.js)
  - Comment In (history.js, chat.js, hdc.js)
@@ -58,7 +59,7 @@
  - Change (set, msg.query, msg.payload.text)
  - HTTP Request
 	 - GET
-	 - https://krhoyt.cloudant.com/hdc/_design/chat/_search/by_text?q=text:{{{query}}}&include_docs=true
+	 - UTF-8 String https://krhoyt.cloudant.com/hdc/_design/chat/_search/by_text?q=text:{{{query}}}&include_docs=true
 	 - Basic Authentication
 	 - Parsed JSON
  - HTTP Out
@@ -90,8 +91,8 @@
     return msg;
 
  - Connect
-	 - Add Details
-	 - WebSocket Out
+	 - Build Chat -> Add Details
+	 - Build Chat -> WebSocket Out
  - Switch (msg.payload.source, is null)
  - Change (set, msg.payload, msg.payload.text)
  - Twilio Out (demo, ###522####)
@@ -104,7 +105,7 @@
 	 - GET
 	 - https://stream.watsonplatform.net/authorization/api/v1/token?url=https://stream.watsonplatform.net/speech-to-text/api
 	 - Basic Authentication
-	 - Return UTF-8 String
+	 - UTF-8 String
  - HTTP Out
 
 **Internet of Things (Extra Time)**
