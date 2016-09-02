@@ -68,11 +68,18 @@ var Conversation = ( function() {
         console.log( data.intents[0].intent );
         console.log( data.output.text[0] );
 
+        // Catch special circumstances
+        if( data.intents[0].intent == 'time' ) {
+            data.output.text[0] = 
+                data.output.text[0] + ' ' + 
+                moment().format( 'h:mm A' ) + '.';
+        }
+
         /*
          * TODO: Emit intent details
-         */
+         */        
         // Notify UI of discovered intent
-        // UI will display and speak results
+        // UI will display and speak results        
         emit( Conversation.INTENT, {
             intent: data.intents[0].intent,
             text: data.output.text[0]
