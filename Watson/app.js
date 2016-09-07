@@ -12,6 +12,9 @@ var IOT_SERVER = 'mqtt://ts200f.messaging.internetofthings.ibmcloud.com';
 // Read individual settings
 var config = jsonfile.readFileSync( __dirname + '/config.json' );
 
+var client = null;
+
+/*
 // Connect to Watson IoT
 var client = mqtt.connect( IOT_SERVER, {
     clientId: IOT_CLIENT,
@@ -24,6 +27,7 @@ client.on( 'connect', function() {
     // Debug
     console.log( 'Connected to Watson.' );
 } );
+*/
 
 // Application
 var app = express();
