@@ -4,3 +4,4 @@ node_modules
 starbucks
 accounts.txt
 .DS_Store
+.vscode
